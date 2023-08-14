@@ -130,9 +130,6 @@ export const commentPost = async (req: Request, res: Response) => {
 
 // Multer
 const storage = multer.diskStorage({
-  destination: function (req: Request, file: Express.Multer.File, cb) {
-    cb(null, "./abc")
-  },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + "-" + req.body.userId + "-" + Date.now() + ".png")
   },
