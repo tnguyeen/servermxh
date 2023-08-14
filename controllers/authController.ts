@@ -4,7 +4,7 @@ import User from "../models/userModel";
 import multer from "multer";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { firebaseStorage } from "../firebase/firebaseConfig";
-import { readFileSync } from "node:fs";
+import { readFileSync } from "fs";
 
 export const register = async (
   req: Request,
