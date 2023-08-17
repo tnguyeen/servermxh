@@ -2,6 +2,7 @@ import dotenv from "dotenv"
 import mongoose, { ConnectOptions } from "mongoose"
 import app from "./app"
 import http from "http"
+import { Server } from "socket.io"
 
 dotenv.config({ path: "./config.env" })
 
@@ -9,6 +10,24 @@ const DB: string = process.env.DATABASE!
 const port = process.env.PORT || 8000
 
 const server = http.createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: "https://dungvaobangdienthoai.vercel.app/",
+    methods: ["GET", "POST"],
+  },
+})
+
+io.on("connection", (socket) => {
+  socket.on("join", (data) => {
+    socket.join(data)
+  })
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data)
+  })
+
+  socket.on("disconnect", () => {})
+})
 
 mongoose
   .connect(DB!, {
